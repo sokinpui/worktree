@@ -74,3 +74,19 @@ func GetRemoteBranches() ([]RemoteBranch, error) {
 
 	return branches, nil
 }
+
+func RemoveWorktree(path string, force bool) error {
+	args := []string{"worktree", "remove", path}
+	if force {
+		args = append(args, "--force")
+	}
+	return Run(".", args...)
+}
+
+func DeleteBranch(branch string, force bool) error {
+	flag := "-d"
+	if force {
+		flag = "-D"
+	}
+	return Run(".", "branch", flag, branch)
+}
