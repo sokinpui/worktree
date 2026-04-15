@@ -3,7 +3,7 @@ package commands
 import (
 	"fmt"
 	"path/filepath"
-	"worktree-cli/internal/git"
+	"github.com/sokinpui/worktree-cli/internal/git"
 
 	"github.com/spf13/cobra"
 )

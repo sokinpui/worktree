@@ -2,8 +2,8 @@ package commands
 
 import (
 	"fmt"
-	"worktree-cli/internal/git"
-	"worktree-cli/internal/tui"
+	"github.com/sokinpui/worktree-cli/internal/git"
+	"github.com/sokinpui/worktree-cli/internal/tui"
 
 	"github.com/spf13/cobra"
 )

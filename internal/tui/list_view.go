@@ -3,7 +3,7 @@ package tui
 import (
 	"fmt"
 	"strings"
-	"worktree-cli/internal/git"
+	"github.com/sokinpui/worktree-cli/internal/git"
 )
 
 func RenderList(worktrees []git.Worktree, remotes []git.RemoteBranch) string {
