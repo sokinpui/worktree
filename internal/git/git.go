@@ -25,6 +25,11 @@ func Run(dir string, args ...string) error {
 	return cmd.Run()
 }
 
+func PathExists(path string) bool {
+	_, err := os.Stat(path)
+	return !os.IsNotExist(err)
+}
+
 func GetWorktrees() ([]Worktree, error) {
 	cmd := exec.Command("git", "worktree", "list", "--porcelain")
 	output, err := cmd.Output()
@@ -73,6 +78,57 @@ func GetRemoteBranches() ([]RemoteBranch, error) {
 	}
 
 	return branches, nil
+}
+
+func GetProjectRoot() (string, error) {
+	cmd := exec.Command("git", "rev-parse", "--git-common-dir")
+	out, err := cmd.Output()
+	if err != nil {
+		return "", err
+	}
+
+	gitDir := strings.TrimSpace(string(out))
+	absGitDir, err := filepath.Abs(gitDir)
+	if err != nil {
+		return "", err
+	}
+	return filepath.Dir(absGitDir), nil
+}
+
+func GetCurrentBranch() (string, error) {
+	cmd := exec.Command("git", "branch", "--show-current")
+	out, _ := cmd.Output()
+	branch := strings.TrimSpace(string(out))
+	if branch != "" {
+		return branch, nil
+	}
+
+	cmd = exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD")
+	out, err := cmd.Output()
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(string(out)), nil
+}
+
+func BranchExists(name string) bool {
+	cmd := exec.Command("git", "show-ref", "--verify", "--quiet", "refs/heads/"+name)
+	return cmd.Run() == nil
+}
+
+func RemoteBranchExists(name string) bool {
+	cmd := exec.Command("git", "show-ref", "--verify", "--quiet", "refs/remotes/"+name)
+	return cmd.Run() == nil
+}
+
+func AddWorktree(path, branch, base string, isNew bool) error {
+	args := []string{"worktree", "add"}
+	if isNew {
+		args = append(args, "-b", branch, path, base)
+	} else {
+		args = append(args, path, branch)
+	}
+	return Run(".", args...)
 }
 
 func RemoveWorktree(path string, force bool) error {

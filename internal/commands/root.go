@@ -34,6 +34,7 @@ func runTUI() {
 
 func init() {
 	rootCmd.AddCommand(cloneCmd)
+	rootCmd.AddCommand(addCmd)
 	rootCmd.AddCommand(listCmd)
 	rootCmd.AddCommand(removeCmd)
 }

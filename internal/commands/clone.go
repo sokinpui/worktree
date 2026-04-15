@@ -30,7 +30,7 @@ func runClone(repoURL, dir string) error {
 		dir = deriveDirName(repoURL)
 	}
 
-	if isDirectoryExists(dir) {
+	if git.PathExists(dir) {
 		return fmt.Errorf("directory '%s' already exists", dir)
 	}
 
@@ -47,11 +47,6 @@ func deriveDirName(repoURL string) string {
 	
 	parts := strings.Split(trimmed, "/")
 	return parts[len(parts)-1]
-}
-
-func isDirectoryExists(path string) bool {
-	_, err := os.Stat(path)
-	return !os.IsNotExist(err)
 }
 
 func executeCloneWorkflow(repoURL, targetDir string) error {
