@@ -11,6 +11,7 @@ var forceRemove bool
 
 var removeCmd = &cobra.Command{
 	Use:   "remove <worktree-path>",
+	Aliases: []string{"rm"},
 	Short: "Remove a worktree and its associated local branch",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {

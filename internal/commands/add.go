@@ -29,6 +29,10 @@ func init() {
 }
 
 func runAdd(branch, path, base string) error {
+	if err := git.FetchAll(); err != nil {
+		fmt.Printf("Warning: failed to fetch updates: %v\n", err)
+	}
+
 	targetPath := path
 	if !filepath.IsAbs(path) {
 		root, err := git.GetProjectRoot()

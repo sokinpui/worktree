@@ -80,6 +80,10 @@ func GetRemoteBranches() ([]RemoteBranch, error) {
 	return branches, nil
 }
 
+func FetchAll() error {
+	return Run(".", "fetch", "--all")
+}
+
 func GetProjectRoot() (string, error) {
 	cmd := exec.Command("git", "rev-parse", "--git-common-dir")
 	out, err := cmd.Output()
