@@ -7,7 +7,7 @@ import (
 )
 
 type Model struct {
-	worktrees []string
+	worktrees []git.Worktree
 	cursor    int
 	selected  map[int]struct{}
 	width     int
@@ -18,7 +18,7 @@ type Model struct {
 func New() Model {
 	worktrees, err := git.GetWorktrees()
 	if err != nil {
-		worktrees = []string{}
+		worktrees = []git.Worktree{}
 	}
 
 	return Model{

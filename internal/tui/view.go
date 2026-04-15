@@ -29,7 +29,7 @@ func (m Model) View() string {
 			checked = "x"
 		}
 
-		b.WriteString(fmt.Sprintf("%s [%s] %s\n", cursor, checked, wt))
+		b.WriteString(fmt.Sprintf("%s [%s] %s\n", cursor, checked, wt.Path))
 	}
 
 	b.WriteString("\n(j/k: move, space: select, q: quit)\n")
