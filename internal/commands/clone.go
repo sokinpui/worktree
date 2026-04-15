@@ -6,18 +6,35 @@ import (
 	"path/filepath"
 	"strings"
 	"worktree-cli/internal/git"
+
+	"github.com/spf13/cobra"
 )
 
-func Clone(repoURL, targetDir string) error {
-	if targetDir == "" {
-		targetDir = deriveDirName(repoURL)
+var targetDir string
+
+var cloneCmd = &cobra.Command{
+	Use:   "clone <repo-url>",
+	Short: "Clone a repository using the bare worktree workflow",
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return runClone(args[0], targetDir)
+	},
+}
+
+func init() {
+	cloneCmd.Flags().StringVarP(&targetDir, "dir", "d", "", "Target directory name")
+}
+
+func runClone(repoURL, dir string) error {
+	if dir == "" {
+		dir = deriveDirName(repoURL)
 	}
 
-	if isDirectoryExists(targetDir) {
-		return fmt.Errorf("directory '%s' already exists", targetDir)
+	if isDirectoryExists(dir) {
+		return fmt.Errorf("directory '%s' already exists", dir)
 	}
 
-	return executeCloneWorkflow(repoURL, targetDir)
+	return executeCloneWorkflow(repoURL, dir)
 }
 
 func deriveDirName(repoURL string) string {
