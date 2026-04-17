@@ -1,4 +1,4 @@
-module github.com/sokinpui/worktree-cli
+module github.com/sokinpui/worktree
 
 go 1.26.1
 

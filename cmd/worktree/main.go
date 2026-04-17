@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/sokinpui/worktree-cli/internal/commands"
+	"github.com/sokinpui/worktree/internal/commands"
 )
 
 func main() {

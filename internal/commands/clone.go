@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"github.com/sokinpui/worktree-cli/internal/git"
+	"github.com/sokinpui/worktree/internal/git"
 
 	"github.com/spf13/cobra"
 )
