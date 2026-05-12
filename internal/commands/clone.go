@@ -3,7 +3,6 @@ package commands
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 	"github.com/sokinpui/worktree/internal/git"
 
@@ -58,8 +57,7 @@ func executeCloneWorkflow(repoURL, targetDir string) error {
 		return err
 	}
 
-	dotGitPath := filepath.Join(targetDir, ".git")
-	if err := os.WriteFile(dotGitPath, []byte("gitdir: ./.bare\n"), 0644); err != nil {
+	if err := git.CreateDotGit(targetDir); err != nil {
 		return err
 	}
 

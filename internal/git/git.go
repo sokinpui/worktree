@@ -30,6 +30,15 @@ func PathExists(path string) bool {
 	return !os.IsNotExist(err)
 }
 
+func InitBare(dir string) error {
+	return Run(dir, "init", "--bare", ".bare")
+}
+
+func CreateDotGit(dir string) error {
+	dotGitPath := filepath.Join(dir, ".git")
+	return os.WriteFile(dotGitPath, []byte("gitdir: ./.bare\n"), 0644)
+}
+
 func GetWorktrees() ([]Worktree, error) {
 	cmd := exec.Command("git", "worktree", "list", "--porcelain")
 	output, err := cmd.Output()
@@ -133,6 +142,10 @@ func AddWorktree(path, branch, base string, isNew bool) error {
 		args = append(args, path, branch)
 	}
 	return Run(".", args...)
+}
+
+func AddOrphanWorktree(dir, branch, path string) error {
+	return Run(dir, "worktree", "add", "--orphan", "-b", branch, path)
 }
 
 func RemoveWorktree(path string, force bool) error {
