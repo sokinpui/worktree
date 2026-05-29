@@ -64,6 +64,35 @@ func GetWorktrees() ([]Worktree, error) {
 	return worktrees, nil
 }
 
+func GetWorktreePaths() ([]string, error) {
+	wts, err := GetWorktrees()
+	if err != nil {
+		return nil, err
+	}
+	paths := make([]string, 0, len(wts))
+	for _, wt := range wts {
+		paths = append(paths, wt.Path)
+	}
+	return paths, nil
+}
+
+func GetAllBranches() ([]string, error) {
+	cmd := exec.Command("git", "branch", "-a", "--format=%(refname:short)")
+	output, err := cmd.Output()
+	if err != nil {
+		return nil, err
+	}
+
+	lines := strings.Split(strings.TrimSpace(string(output)), "\n")
+	var branches []string
+	for _, line := range lines {
+		if line != "" {
+			branches = append(branches, line)
+		}
+	}
+	return branches, nil
+}
+
 func GetRemoteBranches() ([]RemoteBranch, error) {
 	cmd := exec.Command("git", "branch", "-r")
 	output, err := cmd.Output()

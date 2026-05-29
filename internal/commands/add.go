@@ -22,6 +22,16 @@ var addCmd = &cobra.Command{
 		}
 		return runAdd(branch, path, baseBranch)
 	},
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		if len(args) != 0 {
+			return nil, cobra.ShellCompDirectiveNoFileComp
+		}
+		branches, err := git.GetAllBranches()
+		if err != nil {
+			return nil, cobra.ShellCompDirectiveError
+		}
+		return branches, cobra.ShellCompDirectiveNoFileComp
+	},
 }
 
 func init() {

@@ -17,6 +17,16 @@ var removeCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return runRemove(args[0], forceRemove)
 	},
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		if len(args) != 0 {
+			return nil, cobra.ShellCompDirectiveNoFileComp
+		}
+		paths, err := git.GetWorktreePaths()
+		if err != nil {
+			return nil, cobra.ShellCompDirectiveError
+		}
+		return paths, cobra.ShellCompDirectiveNoFileComp
+	},
 }
 
 func init() {
